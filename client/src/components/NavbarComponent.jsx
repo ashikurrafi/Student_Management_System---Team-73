@@ -43,6 +43,9 @@ const NavbarComponent = () => {
           </Link>
         </div>
       </nav>
+      <div>
+        <h1>Home page</h1>
+      </div>
       <Outlet />
     </>
   );

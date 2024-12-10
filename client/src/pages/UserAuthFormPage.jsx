@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageAnimation from "../common/PageAnimation";
 import InputComponent from "../components/InputComponent";
 import googleIcon from "../images/google.png";
@@ -9,19 +9,46 @@ import googleIcon from "../images/google.png";
 const UserAuthFormPage = ({ type }) => {
   const authForm = useRef();
 
+  const navigate = useNavigate();
+
+  // const userAuthThroughServer = async (serverRoute, formData) => {
+  //   try {
+  //     const { data } = await axios.post(
+  //       // import.meta.env.VITE_SERVER_DOMAIN + serverRoute,
+  //       "http://localhost:3001/signup",
+  //       // "http://localhost:3001/signin",
+  //       formData
+  //     );
+
+  //     console.log(data);
+  //     // Handle successful login/signup (e.g., save token, redirect, etc.)
+  //   } catch ({ response }) {
+  //     toast.error(response.data.error);
+  //   }
+  // };
+
   const userAuthThroughServer = async (serverRoute, formData) => {
     try {
       const { data } = await axios.post(
-        // import.meta.env.VITE_SERVER_DOMAIN + serverRoute,
-        "http://localhost:3001/signup",
-        // "http://localhost:3001/signin",
+        "http://localhost:3001" + serverRoute, // Fixed URL concatenation
         formData
       );
 
       console.log(data);
-      // Handle successful login/signup (e.g., save token, redirect, etc.)
+
+      // On successful authentication, perform the appropriate redirect
+      if (serverRoute === "/signup") {
+        // Redirect to signin page after successful signup
+        toast.success("Signup successful! Please sign in.");
+        navigate("/signin");
+      } else if (serverRoute === "/signin") {
+        // Redirect to home page after successful signin
+        toast.success("Signin successful!");
+        // navigate("/home"); // Assuming "/home" is the home page
+        navigate("/"); // Assuming "/home" is the home page
+      }
     } catch ({ response }) {
-      toast.error(response.data.error);
+      toast.error(response.data.error); // Handle errors from server response
     }
   };
 
