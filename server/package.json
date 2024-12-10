@@ -3,9 +3,22 @@
   "version": "1.0.0",
   "description": "Student Management system",
   "main": "server.js",
+  "type": "module",
   "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ashikur Rafi & Tamma Mobasshira",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.8.4"
+  }
 }
