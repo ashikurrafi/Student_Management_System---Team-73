@@ -11,11 +11,8 @@ const StudentSchema = new mongoose.Schema(
     verifyOTPExpiresAt: { type: Number, default: 0 },
     isAccountVerified: { type: Boolean, default: false },
     resetOTP: { type: String, default: "" },
-    resetOTPExpiresAt: {
-      type: Number,
-      default: 0,
-    },
+    resetOTPExpiresAt: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
-export default mongoose.model("Students", StudentSchema);
+export default mongoose.model("students", StudentSchema);
