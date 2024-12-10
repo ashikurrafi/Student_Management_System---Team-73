@@ -12,9 +12,12 @@ const UserAuthFormPage = ({ type }) => {
   const userAuthThroughServer = async (serverRoute, formData) => {
     try {
       const { data } = await axios.post(
-        import.meta.env.VITE_SERVER_DOMAIN + serverRoute,
+        // import.meta.env.VITE_SERVER_DOMAIN + serverRoute,
+        "http://localhost:3001/signup",
+        // "http://localhost:3001/signin",
         formData
       );
+
       console.log(data);
       // Handle successful login/signup (e.g., save token, redirect, etc.)
     } catch ({ response }) {
@@ -30,6 +33,7 @@ const UserAuthFormPage = ({ type }) => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_+=<>?]).{8,20}$/;
+
     const form = new FormData(authForm.current);
     const formData = {};
     for (let [key, value] of form.entries()) {
@@ -37,12 +41,12 @@ const UserAuthFormPage = ({ type }) => {
       console.log(formData);
     }
 
-    const { fullname, email, password } = formData;
+    const { fullName, email, password } = formData;
 
     // Validation checks
-    if (fullname) {
-      if (fullname.length < 3) {
-        return toast.error("Fullname must be at least 3 characters long");
+    if (fullName) {
+      if (fullName.length < 3) {
+        return toast.error("fullName must be at least 3 characters long");
       }
     }
 
@@ -74,7 +78,7 @@ const UserAuthFormPage = ({ type }) => {
             </h1>
             {type != "sign-in" ? (
               <InputComponent
-                name="fullname"
+                name="fullName"
                 type="text"
                 placeholder="Full name"
                 icon="fi-rr-user"
