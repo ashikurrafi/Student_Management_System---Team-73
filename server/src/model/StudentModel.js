@@ -1,34 +1,20 @@
 import mongoose from "mongoose";
 const StudentSchema = new mongoose.Schema(
   {
-    fullname: {
-      type: String,
-      lowercase: true,
-      required: true,
-      minlength: [3, "fullname must be 3 letters long"],
-    },
-
-    email: {
+    fullName: {
       type: String,
       required: true,
-      lowercase: true,
-      unique: true,
     },
-
-    password: String,
-    username: {
-      type: String,
-      minlength: [8, "Username must be 8 letters long"],
-      unique: true,
+    email: { type: String, required: true, uniue: true },
+    password: { type: String, required: true },
+    verifyOTP: { type: String, default: "" },
+    verifyOTPExpiresAt: { type: Number, default: 0 },
+    isAccountVerified: { type: Boolean, default: false },
+    resetOTP: { type: String, default: "" },
+    resetOTPExpiresAt: {
+      type: Number,
+      default: 0,
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    resetPasswordToken: String,
-    resetPasswordExpiredAt: Date,
-    verificationToken: String,
-    verificationTokenExpiredAt: Date,
   },
   { timestamps: true }
 );
