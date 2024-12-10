@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
 
+import studentsModel from "../model/StudentModel.js";
+
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_+=<>?]).{8,20}$/;
@@ -35,11 +37,25 @@ export const signup = async (req, res) => {
   }
 
   try {
+    const existingStudent = await studentsModel.findOne({ email });
+
+    if (existingStudent) {
+      return res
+        .status(400)
+        .json({ success: `False`, message: `Email already exists` });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    return res
-      .status(200)
-      .json({ success: `True`, hashedPassword: hashedPassword });
+    const newStudent = new studentsModel({
+      fullName,
+      email,
+      password: hashedPassword,
+    });
+
+    await newStudent.save();
+
+    return res.status(200).json({ success: `True`, newStudent: newStudent });
   } catch (error) {
     res.status(400).json({ success: `False`, error: error.message });
   }
